@@ -1,6 +1,5 @@
 
 from pico2d import *
-import time
 import math
 
 open_canvas()
