@@ -15,7 +15,9 @@ center_x, center_y = 400, 345
 
 #사각운동 함수
 def move_square():
-        # 우하단 이동 
+    global x, y
+    
+    # 우하단 이동 
     while x < 800:
         clear_canvas_now()
         grass.draw_now(400, 30)
@@ -55,6 +57,20 @@ def move_square():
         x += 2
         delay(0.01)
 
+#원운동 함수
+def move_circle():
+    for degree in range(270, -90, -2):
+        clear_canvas_now()
+        grass.draw_now(400, 30)
+
+        rad = degree / 360 * 2 * math.pi
+        cx = center_x + radius * math.cos(rad)
+        cy = center_y + radius * math.sin(rad)
+        character.draw_now(cx, cy)
+        delay(0.01)
+
+
 #무한반복
 while True:
     move_square()
+    move_circle()
