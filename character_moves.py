@@ -14,61 +14,6 @@ x, y = 400, 90 #초기위치
 radius = 255
 center_x, center_y = 400, 345
 
-#사각운동 함수
-def move_square():
-    global x, y
-    
-    # 우하단 이동 
-    while x < 800:
-        clear_canvas_now()
-        grass.draw_now(400, 30)
-        character.draw_now(x, y)
-        x += 2
-        delay(0.01)
-
-    # 우상단 이동
-    while y < 600:
-        clear_canvas_now()
-        grass.draw_now(400, 30)
-        character.draw_now(x, y)
-        y += 2
-        delay(0.01)
-
-    # 좌상단 이동
-    while x > 0:
-        clear_canvas_now()
-        grass.draw_now(400, 30)
-        character.draw_now(x, y)
-        x -= 2
-        delay(0.01)
-
-    # 좌하단 이동
-    while y > 90:
-        clear_canvas_now()
-        grass.draw_now(400, 30)
-        character.draw_now(x, y)
-        y -= 2
-        delay(0.01)
-
-    # 중앙복귀
-    while x < 400:
-        clear_canvas_now()
-        grass.draw_now(400, 30)
-        character.draw_now(x, y)
-        x += 2
-        delay(0.01)
-
-#원운동 함수
-def move_circle():
-    for degree in range(270, -90, -2):
-        clear_canvas_now()
-        grass.draw_now(400, 30)
-
-        rad = degree / 360 * 2 * math.pi
-        cx = center_x + radius * math.cos(rad)
-        cy = center_y + radius * math.sin(rad)
-        character.draw_now(cx, cy)
-        delay(0.01)
 
 def move_to_point(start, end):
         global x, y
@@ -94,22 +39,51 @@ def move_to_point(start, end):
         x, y = ex, ey 
 
 
+#사각운동 함수
+def move_square():
+    global x, y
+    #꼭짓점
+    start = (x, y)
+    Bright = (x+400,y)
+    Tright = (x+400,y+510)
+    Tleft = (x-400,y+510)
+    Bleft = (x-400,y)
+    move_to_point(start, Bright)
+    move_to_point(Bright, Tright)
+    move_to_point(Tright, Tleft)
+    move_to_point(Tleft, Bleft)
+    move_to_point(Bleft, start)
+
+
+#원운동 함수
+def move_circle():
+    for degree in range(270, -90, -2):
+        clear_canvas_now()
+        grass.draw_now(400, 30)
+
+        rad = degree / 360 * 2 * math.pi
+        cx = center_x + radius * math.cos(rad)
+        cy = center_y + radius * math.sin(rad)
+        character.draw_now(cx, cy)
+        delay(0.01)
+
+
 def move_triangle():
     global x, y
     # 정삼각형 높이
     height = 550
     side = height / math.sin(math.radians(60))
     # 꼭짓점 계산
-    mid = (x, y)
+    start = (x, y)
     left = (x - (side / 2), y)
     right = (x + (side / 2), y)
     top = (x, y + height)
 
     # 삼각형의 각 변을 따라 이동
-    move_to_point(mid, right)
+    move_to_point(start, right)
     move_to_point(right, top)
     move_to_point(top, left)
-    move_to_point(left, mid)
+    move_to_point(left, start)
 
 
 #무한반복
