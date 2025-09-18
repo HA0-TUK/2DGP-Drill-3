@@ -1,4 +1,5 @@
 
+from tracemalloc import start
 from pico2d import *
 import math
 
@@ -69,8 +70,50 @@ def move_circle():
         character.draw_now(cx, cy)
         delay(0.01)
 
+def move_to_point(start, end):
+        global x, y
+        speed = 200  # 픽셀/초
+        delay_time = 0.01  # 초
+        sx, sy = start
+        ex, ey = end
+        distance = math.sqrt((ex - sx) ** 2 + (ey - sy) ** 2)
+        steps = int(distance / (speed * delay_time))
+        if steps == 0:
+            steps = 1
+        dx = (ex - sx) / steps
+        dy = (ey - sy) / steps
+
+        for step in range(steps):
+            clear_canvas_now()
+            grass.draw_now(400, 30)
+            x += dx
+            y += dy
+            character.draw_now(x, y)
+            delay(delay_time)
+
+        x, y = ex, ey 
+
+
+def move_triangle():
+    global x, y
+    # 정삼각형 높이
+    height = 550
+    side = height / math.sin(math.radians(60))
+    # 꼭짓점 계산
+    mid = (x, y)
+    left = (x - (side / 2), y)
+    right = (x + (side / 2), y)
+    top = (x, y + height)
+
+    # 삼각형의 각 변을 따라 이동
+    move_to_point(mid, right)
+    move_to_point(right, top)
+    move_to_point(top, left)
+    move_to_point(left, mid)
+
 
 #무한반복
 while True:
-    move_square()
+    move_square()    
+    move_triangle()
     move_circle()
