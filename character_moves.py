@@ -1,5 +1,4 @@
 
-from tracemalloc import start
 from pico2d import *
 import math
 
@@ -48,6 +47,7 @@ def move_square():
     Tright = (x+400,y+510)
     Tleft = (x-400,y+510)
     Bleft = (x-400,y)
+
     move_to_point(start, Bright)
     move_to_point(Bright, Tright)
     move_to_point(Tright, Tleft)
